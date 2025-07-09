@@ -11,10 +11,19 @@ let postsCache: PostMetadata[] | null = null;
 let cacheTime: number = 0;
 const CACHE_DURATION = 60 * 1000; // 1 minute cache
 
+/**
+ * 파일명에서 slug를 생성합니다.
+ * @param filename - 마크다운 파일명 (예: "my-post.md")
+ * @returns 확장자가 제거된 slug (예: "my-post")
+ */
 function generateSlugFromFilename(filename: string): string {
   return filename.replace(/\.md$/, '');
 }
 
+/**
+ * notes 디렉토리의 모든 포스트 slug를 가져옵니다.
+ * @returns 포스트 slug 배열
+ */
 export function getPostSlugs(): string[] {
   try {
     const files = fs.readdirSync(postsDirectory);
@@ -27,6 +36,11 @@ export function getPostSlugs(): string[] {
   }
 }
 
+/**
+ * slug로 특정 포스트를 가져옵니다.
+ * @param slug - 포스트 slug
+ * @returns 포스트 데이터 또는 null
+ */
 export function getPostBySlug(slug: string): Post | null {
   try {
     const fullPath = path.join(postsDirectory, `${slug}.md`);
@@ -57,6 +71,11 @@ export function getPostBySlug(slug: string): Post | null {
   }
 }
 
+/**
+ * 모든 포스트의 메타데이터를 가져옵니다.
+ * 성능을 위해 1분간 캐싱됩니다.
+ * @returns 날짜 내림차순으로 정렬된 포스트 메타데이터 배열
+ */
 export function getAllPosts(): PostMetadata[] {
   return measureSync('getAllPosts', () => {
     // Check if cache is valid
@@ -89,11 +108,20 @@ export function getAllPosts(): PostMetadata[] {
   });
 }
 
+/**
+ * 포스트 캐시를 초기화합니다.
+ * 주로 테스트나 개발 중에 사용됩니다.
+ */
 export function clearPostsCache(): void {
   postsCache = null;
   cacheTime = 0;
 }
 
+/**
+ * 특정 slug의 포스트가 존재하는지 확인합니다.
+ * @param slug - 확인할 포스트 slug
+ * @returns 존재 여부
+ */
 export function checkPostExists(slug: string): boolean {
   const fullPath = path.join(postsDirectory, `${slug}.md`);
   return fs.existsSync(fullPath);

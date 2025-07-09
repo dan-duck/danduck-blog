@@ -11,6 +11,12 @@ const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes cache
 
 const wikiLinkRegex = /\[\[([^\]]+)\]\]/g;
 
+/**
+ * WikiLink 텍스트를 URL-safe slug로 변환합니다.
+ * 한글 문자를 지원합니다.
+ * @param link - WikiLink 텍스트 (예: "내 글 제목")
+ * @returns URL-safe slug (예: "내-글-제목")
+ */
 function generateSlugFromWikiLink(link: string): string {
   return link
     .toLowerCase()
@@ -18,6 +24,10 @@ function generateSlugFromWikiLink(link: string): string {
     .replace(/[^\w\-가-힣]/g, '');
 }
 
+/**
+ * remark 플러그인: WikiLink 문법을 HTML 링크로 변환합니다.
+ * [[링크 텍스트]] 형식을 <a href="/posts/링크-텍스트">링크 텍스트</a>로 변환
+ */
 function remarkWikiLink() {
   return (tree: Root) => {
     visit(tree, 'text', (node, index, parent) => {
@@ -70,6 +80,10 @@ function remarkWikiLink() {
   };
 }
 
+/**
+ * remark 플러그인: 상대 경로 이미지를 절대 경로로 변환합니다.
+ * 예: "image.png" → "/images/image.png"
+ */
 function remarkImagePath() {
   return (tree: Root) => {
     visit(tree, 'image', (node: Image) => {
@@ -94,6 +108,13 @@ function generateCacheKey(markdown: string): string {
   return hash.toString(36);
 }
 
+/**
+ * 마크다운을 HTML로 변환합니다.
+ * WikiLink 처리, GFM 지원, 이미지 경로 변환을 포함합니다.
+ * 성능을 위해 5분간 캐싱됩니다.
+ * @param markdown - 변환할 마크다운 텍스트
+ * @returns 변환된 HTML 문자열
+ */
 export async function markdownToHtml(markdown: string): Promise<string> {
   return measureAsync('markdownToHtml', async () => {
     const cacheKey = generateCacheKey(markdown);
@@ -134,6 +155,10 @@ export async function markdownToHtml(markdown: string): Promise<string> {
   });
 }
 
+/**
+ * 마크다운 캐시를 초기화합니다.
+ * 주로 테스트나 개발 중에 사용됩니다.
+ */
 export function clearMarkdownCache(): void {
   markdownCache.clear();
 }
