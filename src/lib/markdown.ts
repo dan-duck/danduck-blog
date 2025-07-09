@@ -2,7 +2,7 @@ import { remark } from 'remark';
 import html from 'remark-html';
 import gfm from 'remark-gfm';
 import { visit } from 'unist-util-visit';
-import type { Root } from 'mdast';
+import type { Root, Image } from 'mdast';
 
 const wikiLinkRegex = /\[\[([^\]]+)\]\]/g;
 
@@ -63,10 +63,24 @@ function remarkWikiLink() {
   };
 }
 
+function remarkImagePath() {
+  return (tree: Root) => {
+    visit(tree, 'image', (node: Image) => {
+      // Process relative image paths
+      if (node.url && !node.url.startsWith('http') && !node.url.startsWith('/')) {
+        // Convert relative paths to absolute paths
+        // Assuming images are stored in public/images/
+        node.url = `/images/${node.url}`;
+      }
+    });
+  };
+}
+
 export async function markdownToHtml(markdown: string): Promise<string> {
   const result = await remark()
     .use(gfm)
     .use(remarkWikiLink)
+    .use(remarkImagePath)
     .use(html, { sanitize: false })
     .process(markdown);
   
