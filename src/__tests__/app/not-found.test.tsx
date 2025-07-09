@@ -44,7 +44,7 @@ describe('404 Not Found Page', () => {
     expect(asciiArt).toBeInTheDocument();
     expect(asciiArt?.textContent).toContain('ERROR');
     expect(asciiArt?.textContent).toContain('404');
-  };
+  });
 
   it('has proper heading structure', () => {
     render(<NotFound />);

@@ -2,7 +2,7 @@ import { remark } from 'remark';
 import html from 'remark-html';
 import gfm from 'remark-gfm';
 import { visit } from 'unist-util-visit';
-import type { Root, Image } from 'mdast';
+import type { Root, Image, Link, Text, PhrasingContent } from 'mdast';
 import { measureAsync } from '@/lib/performance';
 
 // Markdown processing cache
@@ -26,7 +26,7 @@ function remarkWikiLink() {
       
       if (matches.length === 0) return;
       
-      const nodes: (typeof node)[] = [];
+      const nodes: PhrasingContent[] = [];
       let lastIndex = 0;
       
       matches.forEach((match) => {
@@ -37,21 +37,21 @@ function remarkWikiLink() {
           nodes.push({
             type: 'text',
             value: value.slice(lastIndex, matchIndex),
-          });
+          } as Text);
         }
         
         const slug = generateSlugFromWikiLink(linkText);
         nodes.push({
           type: 'link',
           url: `/posts/${slug}`,
-          children: [{ type: 'text', value: linkText }],
+          children: [{ type: 'text', value: linkText } as Text],
           data: {
             hProperties: {
               className: ['wiki-link'],
               'data-slug': slug,
             },
           },
-        });
+        } as Link);
         
         lastIndex = matchIndex + fullMatch.length;
       });
@@ -60,10 +60,12 @@ function remarkWikiLink() {
         nodes.push({
           type: 'text',
           value: value.slice(lastIndex),
-        });
+        } as Text);
       }
       
-      parent.children.splice(index, 1, ...nodes);
+      if (parent && typeof index === 'number') {
+        parent.children.splice(index, 1, ...nodes);
+      }
     });
   };
 }

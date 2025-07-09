@@ -18,9 +18,9 @@ export default function Pagination({
 }: PaginationProps) {
   const pageNumbers = useMemo(() => {
     const delta = 2; // Number of pages to show on each side of current page
-    const range = [];
-    const rangeWithDots = [];
-    let l;
+    const range: number[] = [];
+    const rangeWithDots: (number | string)[] = [];
+    let l: number | undefined;
 
     // Generate page numbers to display
     for (let i = 1; i <= totalPages; i++) {

@@ -180,23 +180,23 @@
 ## Testing
 
 ### Unit Tests
-- [ ] Test environment setup (Jest, React Testing Library)
-- [ ] Markdown conversion tests
-- [ ] WikiLink processing tests
-- [ ] Post loading tests
+- [x] Test environment setup (Jest, React Testing Library)
+- [x] Markdown conversion tests
+- [x] WikiLink processing tests
+- [x] Post loading tests
 
 ### Integration Tests
-- [ ] Post list display test
-- [ ] Post detail page test
-- [ ] WikiLink click test
-- [ ] 404 handling test
+- [x] Post list display test
+- [x] Post detail page test
+- [x] WikiLink click test
+- [x] 404 handling test
 
 ### Quality Assurance
-- [ ] Build success verification
-- [ ] Performance profiling
-- [ ] Bundle size analysis
-- [ ] Console error checks
-- [ ] Network error handling
+- [x] Build success verification
+- [x] Performance profiling
+- [x] Bundle size analysis
+- [x] Console error checks
+- [x] Network error handling
 
 ## Deployment
 

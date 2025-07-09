@@ -14,9 +14,10 @@ const inter = Inter({
 
 const notoSansKR = Noto_Sans_KR({
   variable: "--font-noto-sans-kr",
-  subsets: ["korean", "latin"],
+  subsets: ["latin"],
   weight: ["300", "400", "500", "700"],
   display: "swap",
+  preload: false, // CJK 폰트는 preload를 false로 설정해야 합니다
 });
 
 const jetBrainsMono = JetBrains_Mono({

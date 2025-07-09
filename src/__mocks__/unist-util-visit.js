@@ -1,5 +1,5 @@
 module.exports = {
-  visit: jest.fn((tree, type, handler) => {
+  visit: jest.fn(() => {
     // Simple mock that doesn't actually traverse the tree
     // Just to prevent errors during testing
   }),
