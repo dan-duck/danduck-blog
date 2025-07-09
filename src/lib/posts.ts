@@ -2,8 +2,14 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import { Post, PostMetadata } from '@/types/post';
+import { measureSync, perfLogger } from '@/lib/performance';
 
 const postsDirectory = path.join(process.cwd(), 'notes');
+
+// Memoization cache
+let postsCache: PostMetadata[] | null = null;
+let cacheTime: number = 0;
+const CACHE_DURATION = 60 * 1000; // 1 minute cache
 
 function generateSlugFromFilename(filename: string): string {
   return filename.replace(/\.md$/, '');
@@ -45,20 +51,40 @@ export function getPostBySlug(slug: string): Post | null {
 }
 
 export function getAllPosts(): PostMetadata[] {
-  const slugs = getPostSlugs();
-  const posts = slugs
-    .map((slug) => {
-      const post = getPostBySlug(slug);
-      if (!post) return null;
-      
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { content: _, ...metadata } = post;
-      return metadata;
-    })
-    .filter((post): post is PostMetadata => post !== null)
-    .sort((post1, post2) => (post1.date > post2.date ? -1 : 1));
+  return measureSync('getAllPosts', () => {
+    // Check if cache is valid
+    const now = Date.now();
+    if (postsCache && (now - cacheTime) < CACHE_DURATION) {
+      perfLogger.mark('cache-hit');
+      perfLogger.measure('cache-hit');
+      return postsCache;
+    }
 
-  return posts;
+    // Build new cache
+    const slugs = getPostSlugs();
+    const posts = slugs
+      .map((slug) => {
+        const post = getPostBySlug(slug);
+        if (!post) return null;
+        
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { content: _, ...metadata } = post;
+        return metadata;
+      })
+      .filter((post): post is PostMetadata => post !== null)
+      .sort((post1, post2) => (post1.date > post2.date ? -1 : 1));
+
+    // Update cache
+    postsCache = posts;
+    cacheTime = now;
+
+    return posts;
+  });
+}
+
+export function clearPostsCache(): void {
+  postsCache = null;
+  cacheTime = 0;
 }
 
 export function checkPostExists(slug: string): boolean {

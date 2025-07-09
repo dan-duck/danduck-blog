@@ -3,6 +3,11 @@ import html from 'remark-html';
 import gfm from 'remark-gfm';
 import { visit } from 'unist-util-visit';
 import type { Root, Image } from 'mdast';
+import { measureAsync } from '@/lib/performance';
+
+// Markdown processing cache
+const markdownCache = new Map<string, { html: string; timestamp: number }>();
+const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes cache
 
 const wikiLinkRegex = /\[\[([^\]]+)\]\]/g;
 
@@ -76,13 +81,57 @@ function remarkImagePath() {
   };
 }
 
+function generateCacheKey(markdown: string): string {
+  // Simple hash function for cache key
+  let hash = 0;
+  for (let i = 0; i < markdown.length; i++) {
+    const char = markdown.charCodeAt(i);
+    hash = ((hash << 5) - hash) + char;
+    hash = hash & hash; // Convert to 32-bit integer
+  }
+  return hash.toString(36);
+}
+
 export async function markdownToHtml(markdown: string): Promise<string> {
-  const result = await remark()
-    .use(gfm)
-    .use(remarkWikiLink)
-    .use(remarkImagePath)
-    .use(html, { sanitize: false })
-    .process(markdown);
-  
-  return result.toString();
+  return measureAsync('markdownToHtml', async () => {
+    const cacheKey = generateCacheKey(markdown);
+    const cached = markdownCache.get(cacheKey);
+    
+    // Check if cached result is valid
+    if (cached && (Date.now() - cached.timestamp) < CACHE_DURATION) {
+      return cached.html;
+    }
+    
+    // Process markdown
+    const result = await remark()
+      .use(gfm)
+      .use(remarkWikiLink)
+      .use(remarkImagePath)
+      .use(html, { sanitize: false })
+      .process(markdown);
+    
+    const htmlContent = result.toString();
+    
+    // Update cache
+    markdownCache.set(cacheKey, {
+      html: htmlContent,
+      timestamp: Date.now()
+    });
+    
+    // Clean old cache entries
+    if (markdownCache.size > 100) {
+      const now = Date.now();
+      for (const [key, value] of markdownCache.entries()) {
+        if (now - value.timestamp > CACHE_DURATION) {
+          markdownCache.delete(key);
+        }
+      }
+    }
+    
+    return htmlContent;
+  });
+}
+
+export function clearMarkdownCache(): void {
+  markdownCache.clear();
 }
