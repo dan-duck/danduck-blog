@@ -30,6 +30,13 @@ export function getPostSlugs(): string[] {
 export function getPostBySlug(slug: string): Post | null {
   try {
     const fullPath = path.join(postsDirectory, `${slug}.md`);
+    
+    // Check if file exists before trying to read it
+    if (!fs.existsSync(fullPath)) {
+      // Don't log error for non-existent files, this is expected for broken WikiLinks
+      return null;
+    }
+    
     const fileContents = fs.readFileSync(fullPath, 'utf8');
     const { data, content } = matter(fileContents);
 

@@ -3,6 +3,7 @@ import { Inter, Noto_Sans_KR, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import SkipLink from "@/components/SkipLink";
 import { WebVitals } from "./web-vitals";
 
 const inter = Inter({
@@ -24,6 +25,12 @@ const jetBrainsMono = JetBrains_Mono({
   weight: ["400", "500"],
   display: "swap",
 });
+
+export const viewport = {
+  themeColor: '#0a0a0a',
+  width: 'device-width',
+  initialScale: 1,
+};
 
 export const metadata: Metadata = {
   title: {
@@ -70,9 +77,6 @@ export const metadata: Metadata = {
       follow: true,
     },
   },
-  
-  // Theme color for dark mode
-  themeColor: '#0a0a0a',
 };
 
 export default function RootLayout({
@@ -86,8 +90,9 @@ export default function RootLayout({
         className={`${inter.variable} ${notoSansKR.variable} ${jetBrainsMono.variable} antialiased bg-black text-gray-100 flex flex-col min-h-screen`}
       >
         <WebVitals />
+        <SkipLink />
         <Header />
-        <main className="flex-1">
+        <main id="main-content" className="flex-1" tabIndex={-1}>
           {children}
         </main>
         <Footer />

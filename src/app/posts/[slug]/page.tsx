@@ -64,7 +64,7 @@ export default async function PostPage({ params }: PostPageProps) {
   const postUrl = `${baseUrl}/posts/${slug}`;
   
   return (
-    <article className="container mx-auto px-4 py-20">
+    <article className="container mx-auto px-4 py-20" role="article" aria-labelledby="post-title">
       <ArticleJsonLd
         title={post.title}
         description={post.description || post.content.slice(0, 160)}
@@ -88,10 +88,10 @@ export default async function PostPage({ params }: PostPageProps) {
             </Link>
           </div>
           
-          <h1 className="function-heading mb-4">{post.title}</h1>
+          <h1 id="post-title" className="function-heading mb-4">{post.title}</h1>
           
-          <div className="flex items-center gap-4 text-sm text-muted">
-            <time dateTime={post.date}>
+          <div className="flex items-center gap-4 text-sm text-muted" role="contentinfo">
+            <time dateTime={post.date} aria-label="게시일">
               {new Date(post.date).toLocaleDateString('ko-KR', {
                 year: 'numeric',
                 month: 'long',
@@ -100,18 +100,19 @@ export default async function PostPage({ params }: PostPageProps) {
             </time>
             {post.author && (
               <>
-                <span className="text-dim">•</span>
+                <span className="text-dim" aria-hidden="true">•</span>
                 <span>{post.author}</span>
               </>
             )}
           </div>
           
           {post.tags && post.tags.length > 0 && (
-            <div className="flex gap-2 flex-wrap mt-4">
+            <div className="flex gap-2 flex-wrap mt-4" role="list" aria-label="태그 목록">
               {post.tags.map((tag) => (
                 <span
                   key={tag}
                   className="text-xs px-2 py-1 bg-muted/10 rounded text-accent-purple"
+                  role="listitem"
                 >
                   #{tag}
                 </span>
@@ -127,6 +128,7 @@ export default async function PostPage({ params }: PostPageProps) {
         <div 
           className="prose prose-invert max-w-none my-12"
           dangerouslySetInnerHTML={{ __html: contentHtml }}
+          role="main"
         />
         
         <div className="ascii-divider mt-16">

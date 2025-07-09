@@ -7,16 +7,16 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-green-500/30 bg-black/95 backdrop-blur supports-[backdrop-filter]:bg-black/60">
+    <header className="sticky top-0 z-50 w-full border-b border-green-500/30 bg-black/95 backdrop-blur supports-[backdrop-filter]:bg-black/60" role="banner">
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
-          <Link href="/" className="flex items-center space-x-2">
+          <Link href="/" className="flex items-center space-x-2" aria-label="danduck.blog 홈페이지">
             <span className="text-xl font-bold text-green-400">
-              <span className="text-green-500">&gt;</span> danduck.blog
+              <span className="text-green-500" aria-hidden="true">&gt;</span> danduck.blog
             </span>
           </Link>
 
-          <nav className="hidden md:flex items-center space-x-6">
+          <nav className="hidden md:flex items-center space-x-6" role="navigation" aria-label="주 메뉴">
             <Link href="/posts" className="text-gray-300 hover:text-green-400 transition-colors">
               Posts
             </Link>
@@ -31,7 +31,9 @@ export default function Header() {
           <button
             className="md:hidden text-gray-300 hover:text-green-400 transition-colors"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            aria-label="Toggle menu"
+            aria-label={isMenuOpen ? "메뉴 닫기" : "메뉴 열기"}
+            aria-expanded={isMenuOpen}
+            aria-controls="mobile-menu"
           >
             <svg
               className="h-6 w-6"
@@ -41,6 +43,7 @@ export default function Header() {
               strokeWidth="2"
               viewBox="0 0 24 24"
               stroke="currentColor"
+              aria-hidden="true"
             >
               {isMenuOpen ? (
                 <path d="M6 18L18 6M6 6l12 12" />
@@ -52,7 +55,7 @@ export default function Header() {
         </div>
 
         {isMenuOpen && (
-          <nav className="md:hidden py-4 border-t border-green-500/30">
+          <nav id="mobile-menu" className="md:hidden py-4 border-t border-green-500/30 mobile-menu" role="navigation" aria-label="모바일 메뉴">
             <div className="flex flex-col space-y-2">
               <Link
                 href="/posts"
