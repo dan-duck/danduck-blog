@@ -5,6 +5,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import SkipLink from "@/components/SkipLink";
 import { WebVitals } from "./web-vitals";
+import Analytics from "@/components/Analytics";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -91,6 +92,7 @@ export default function RootLayout({
         className={`${inter.variable} ${notoSansKR.variable} ${jetBrainsMono.variable} antialiased bg-black text-gray-100 flex flex-col min-h-screen`}
       >
         <WebVitals />
+        <Analytics />
         <SkipLink />
         <Header />
         <main id="main-content" className="flex-1" tabIndex={-1}>
