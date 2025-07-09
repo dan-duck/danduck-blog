@@ -4,6 +4,9 @@ import { getPostBySlug, getPostSlugs } from '@/lib/posts';
 import { markdownToHtml } from '@/lib/markdown';
 import WikiLinkValidator from '@/components/WikiLinkValidator';
 import { ArticleJsonLd, BreadcrumbJsonLd } from '@/components/JsonLd';
+import Breadcrumb from '@/components/Breadcrumb';
+import DateFormatter from '@/components/DateFormatter';
+import Tag from '@/components/Tag';
 import type { Metadata } from 'next';
 
 export const revalidate = 300;
@@ -63,6 +66,12 @@ export default async function PostPage({ params }: PostPageProps) {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://danduck.dev';
   const postUrl = `${baseUrl}/posts/${slug}`;
   
+  const breadcrumbItems = [
+    { name: 'home', href: '/' },
+    { name: 'posts', href: '/posts' },
+    { name: post.title, href: `/posts/${slug}` },
+  ];
+  
   return (
     <article className="container mx-auto px-4 py-20" role="article" aria-labelledby="post-title">
       <ArticleJsonLd
@@ -81,6 +90,8 @@ export default async function PostPage({ params }: PostPageProps) {
         ]}
       />
       <div className="max-w-4xl mx-auto">
+        <Breadcrumb items={breadcrumbItems} className="mb-8" />
+        
         <header className="mb-12">
           <div className="mb-6">
             <Link href="/posts" className="text-accent-green hover:glow">
@@ -91,13 +102,7 @@ export default async function PostPage({ params }: PostPageProps) {
           <h1 id="post-title" className="function-heading mb-4">{post.title}</h1>
           
           <div className="flex items-center gap-4 text-sm text-muted" role="contentinfo">
-            <time dateTime={post.date} aria-label="게시일">
-              {new Date(post.date).toLocaleDateString('ko-KR', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-              })}
-            </time>
+            <DateFormatter date={post.date} format="full" />
             {post.author && (
               <>
                 <span className="text-dim" aria-hidden="true">•</span>
@@ -109,13 +114,7 @@ export default async function PostPage({ params }: PostPageProps) {
           {post.tags && post.tags.length > 0 && (
             <div className="flex gap-2 flex-wrap mt-4" role="list" aria-label="태그 목록">
               {post.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="text-xs px-2 py-1 bg-muted/10 rounded text-accent-purple"
-                  role="listitem"
-                >
-                  #{tag}
-                </span>
+                <Tag key={tag} tag={tag} variant="outline" />
               ))}
             </div>
           )}

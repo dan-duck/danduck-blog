@@ -171,11 +171,11 @@
 
 ## UI Components
 
-- [ ] Post card component
-- [ ] Date formatting component
-- [ ] Tag component (preparation)
-- [ ] Pagination component (preparation)
-- [ ] Breadcrumb component
+- [x] Post card component
+- [x] Date formatting component
+- [x] Tag component (preparation)
+- [x] Pagination component (preparation)
+- [x] Breadcrumb component
 
 ## Testing
 

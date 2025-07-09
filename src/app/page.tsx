@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { getAllPosts } from '@/lib/posts';
 import { PersonJsonLd } from '@/components/JsonLd';
+import PostCard from '@/components/PostCard';
 import type { Metadata } from 'next';
 
 export const revalidate = 300;
@@ -61,26 +62,19 @@ export default function Home() {
           {/* Recent Posts */}
           {recentPosts.length > 0 && (
             <section className="my-12">
-              <h3 className="mb-4 font-mono">
+              <h3 className="mb-6 font-mono">
                 <span className="text-accent-purple">$</span> recent_posts
               </h3>
               
-              <ul className="terminal-list space-y-3">
+              <div className="space-y-4">
                 {recentPosts.map((post) => (
-                  <li key={post.slug}>
-                    <Link href={`/posts/${post.slug}`} className="hover:glow">
-                      {post.title}
-                      <span className="text-muted ml-2">
-                        {`// ${new Date(post.date).toLocaleDateString('ko-KR')}`}
-                      </span>
-                    </Link>
-                  </li>
+                  <PostCard key={post.slug} post={post} />
                 ))}
-              </ul>
+              </div>
               
-              <div className="mt-6">
-                <Link href="/posts" className="text-accent-green hover:glow">
-                  → 모든 글 보기
+              <div className="mt-8 text-center">
+                <Link href="/posts" className="text-accent-green hover:glow inline-flex items-center gap-2">
+                  <span>→</span> 모든 글 보기
                 </Link>
               </div>
             </section>
