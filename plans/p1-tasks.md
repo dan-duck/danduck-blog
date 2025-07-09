@@ -128,11 +128,11 @@
 - [x] og:image preparation (for future implementation)
 
 ### Technical SEO
-- [ ] JSON-LD schema (Article, BreadcrumbList, Person)
-- [ ] robots.txt created
-- [ ] Canonical URL setup
-- [ ] Language setting (ko-KR)
-- [ ] Sitemap preparation
+- [x] JSON-LD schema (Article, BreadcrumbList, Person)
+- [x] robots.txt created
+- [x] Canonical URL setup
+- [x] Language setting (ko-KR)
+- [x] Sitemap preparation
 
 ## Styling
 
@@ -247,4 +247,4 @@
 
 ---
 
-**Progress**: 77/134 tasks completed (57.5%)
+**Progress**: 82/134 tasks completed (61.2%)

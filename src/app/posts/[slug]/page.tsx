@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { getPostBySlug, getPostSlugs } from '@/lib/posts';
 import { markdownToHtml } from '@/lib/markdown';
 import WikiLinkValidator from '@/components/WikiLinkValidator';
+import { ArticleJsonLd, BreadcrumbJsonLd } from '@/components/JsonLd';
 import type { Metadata } from 'next';
 
 export const revalidate = 300;
@@ -27,10 +28,15 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
   }
   
   const description = post.description || post.content.slice(0, 160).replace(/\n/g, ' ');
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://danduck.dev';
+  const canonicalUrl = `${baseUrl}/posts/${slug}`;
   
   return {
     title: post.title,
     description,
+    alternates: {
+      canonical: canonicalUrl,
+    },
     openGraph: {
       title: post.title,
       description,
@@ -38,6 +44,7 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
       publishedTime: post.date,
       authors: post.author ? [post.author] : undefined,
       tags: post.tags,
+      url: canonicalUrl,
     },
     keywords: post.tags,
   };
@@ -53,8 +60,26 @@ export default async function PostPage({ params }: PostPageProps) {
   
   const contentHtml = await markdownToHtml(post.content);
   
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://danduck.dev';
+  const postUrl = `${baseUrl}/posts/${slug}`;
+  
   return (
     <article className="container mx-auto px-4 py-20">
+      <ArticleJsonLd
+        title={post.title}
+        description={post.description || post.content.slice(0, 160)}
+        datePublished={post.date}
+        author={post.author || '단덕'}
+        url={postUrl}
+        keywords={post.tags}
+      />
+      <BreadcrumbJsonLd
+        items={[
+          { name: '홈', url: baseUrl },
+          { name: '글 목록', url: `${baseUrl}/posts` },
+          { name: post.title, url: postUrl },
+        ]}
+      />
       <div className="max-w-4xl mx-auto">
         <header className="mb-12">
           <div className="mb-6">

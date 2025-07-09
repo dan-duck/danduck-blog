@@ -1,13 +1,26 @@
 import Link from 'next/link';
 import { getAllPosts } from '@/lib/posts';
+import { PersonJsonLd } from '@/components/JsonLd';
+import type { Metadata } from 'next';
 
 export const revalidate = 300;
+
+export const metadata: Metadata = {
+  alternates: {
+    canonical: 'https://danduck.dev',
+  },
+};
 
 export default function Home() {
   const recentPosts = getAllPosts().slice(0, 5);
 
   return (
     <div className="container mx-auto px-4 py-20">
+      <PersonJsonLd
+        name="단덕"
+        url="https://danduck.dev"
+        description="Obsidian 노트로 만든 개발 블로그"
+      />
       <div className="max-w-4xl mx-auto">
           {/* Terminal-style header */}
           <div className="mb-12">

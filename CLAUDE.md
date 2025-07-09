@@ -50,3 +50,7 @@ The project is in Phase 1 (Infrastructure Setup) with the following priorities:
 4. Set up basic blog layout and navigation
 
 Refer to `plans/p1-tasks.md` for the detailed task checklist and progress tracking.
+
+## Work Guidelines
+
+- When working on tasks listed in `@plans/p1-tasks.md`, always check the corresponding checkbox in the file after completing each task.

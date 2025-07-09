@@ -1,7 +1,16 @@
 import Link from 'next/link';
 import { getAllPosts } from '@/lib/posts';
+import type { Metadata } from 'next';
 
 export const revalidate = 60;
+
+export const metadata: Metadata = {
+  title: '모든 글',
+  description: '단덕 블로그의 모든 글 목록입니다.',
+  alternates: {
+    canonical: 'https://danduck.dev/posts',
+  },
+};
 
 export default function PostsPage() {
   const posts = getAllPosts();
