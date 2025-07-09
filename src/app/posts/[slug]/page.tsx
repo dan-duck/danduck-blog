@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { getPostBySlug, getPostSlugs } from '@/lib/posts';
 import { markdownToHtml } from '@/lib/markdown';
+import WikiLinkValidator from '@/components/WikiLinkValidator';
 import type { Metadata } from 'next';
 
 export const revalidate = 300;
@@ -107,6 +108,7 @@ export default async function PostPage({ params }: PostPageProps) {
           ▀▄▀▄▀▄ [ EOF ] ▄▀▄▀▄▀
         </div>
       </div>
+      <WikiLinkValidator />
     </article>
   );
 }

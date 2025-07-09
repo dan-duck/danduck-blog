@@ -333,3 +333,71 @@ ul.terminal-list li::before {
     text-decoration: underline;
   }
 }
+
+/* ===========================
+   WikiLink Styles
+   =========================== */
+
+.wiki-link {
+  position: relative;
+  display: inline-block;
+  transition: all var(--transition-fast);
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-underline-offset: 2px;
+}
+
+.wiki-link-valid {
+  color: var(--link-color);
+  text-decoration-color: var(--link-color);
+}
+
+.wiki-link-valid:hover {
+  color: var(--link-hover);
+  text-decoration-style: solid;
+  text-decoration-color: var(--link-hover);
+  text-shadow: 0 0 8px rgba(0, 255, 255, 0.5);
+}
+
+.wiki-link-broken {
+  color: var(--accent-orange);
+  text-decoration-style: wavy;
+  text-decoration-color: var(--accent-orange);
+}
+
+.wiki-link-broken:hover {
+  opacity: 0.8;
+  text-shadow: 0 0 8px rgba(255, 107, 0, 0.5);
+}
+
+/* Tooltip preparation for WikiLinks */
+.wiki-link[data-tooltip]:hover::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 0.5rem;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  white-space: nowrap;
+  z-index: 10;
+  opacity: 0;
+  animation: tooltip-fade-in var(--transition-fast) forwards;
+  border: 1px solid var(--border-color);
+  pointer-events: none;
+}
+
+@keyframes tooltip-fade-in {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
