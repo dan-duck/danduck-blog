@@ -35,14 +35,13 @@
 
 ### Root Layout
 - [x] Metadata configuration (site title, description, favicon, Open Graph defaults)
-- [ ] Global styles imported
-- [ ] Font setup (Inter, Noto Sans KR)
-- [ ] Dark mode preparation
+- [x] Global styles imported
+- [x] Font setup (Inter, Noto Sans KR)
 
 ### Navigation Components
-- [ ] Header component created (`components/Header.tsx`)
-- [ ] Footer component created (`components/Footer.tsx`)
-- [ ] Mobile responsive navigation menu
+- [x] Header component created (`components/Header.tsx`)
+- [x] Footer component created (`components/Footer.tsx`)
+- [x] Mobile responsive navigation menu
 
 ### Page Routes
 - [ ] Homepage implementation (`app/page.tsx`)
