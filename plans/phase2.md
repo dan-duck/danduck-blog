@@ -241,11 +241,11 @@ const buttonVariants = cva(
 - [x] Tailwind 플러그인 추가
 
 ### 기초 컴포넌트
-- [ ] Button 컴포넌트 마이그레이션
-- [ ] Card 컴포넌트 마이그레이션
-- [ ] Badge 컴포넌트 구현
-- [ ] Separator 스타일링
-- [ ] Input/Textarea 구현
+- [x] Button 컴포넌트 마이그레이션
+- [x] Card 컴포넌트 마이그레이션
+- [x] Badge 컴포넌트 구현
+- [x] Separator 스타일링
+- [x] Input/Textarea 구현
 
 ### 네비게이션
 - [ ] Command Palette 구현
