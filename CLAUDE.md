@@ -43,14 +43,23 @@ pnpm lint     # Run ESLint
 
 ## Current Phase
 
-The project is in Phase 1 (Infrastructure Setup) with the following priorities:
-1. Implement markdown file processing from `notes/` directory
-2. Create blog post pages with dynamic routing
-3. Implement WikiLink parsing and navigation
-4. Set up basic blog layout and navigation
+The project is transitioning from Phase 1 to Phase 2:
 
-Refer to `plans/p1-tasks.md` for the detailed task checklist and progress tracking.
+**Phase 1 (Infrastructure Setup)** - 83/134 tasks completed (61.9%)
+- ✅ Core blog functionality with markdown processing
+- ✅ WikiLink system with validation
+- ✅ Responsive layout and navigation
+- ✅ Basic Vercel configuration
+- 🔄 Pending: Actual deployment and live testing
+
+**Phase 2 (shadcn/ui Integration)** - Planning Complete
+- Integrating shadcn/ui as foundational component library
+- Preserving "code geek" terminal/cyberpunk aesthetic
+- Custom theme variants for terminal-style components
+- Refer to `plans/phase2.md` for implementation details
 
 ## Work Guidelines
 
-- When working on tasks listed in `@plans/p1-tasks.md`, always check the corresponding checkbox in the file after completing each task.
+- For Phase 1 tasks: Check `plans/p1-tasks.md` and update checkboxes upon completion
+- For Phase 2 tasks: Follow `plans/phase2.md` implementation plan and update checkboxes upon completion
+- When implementing shadcn components, always preserve the existing dark theme aesthetic
