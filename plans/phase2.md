@@ -248,10 +248,10 @@ const buttonVariants = cva(
 - [x] Input/Textarea 구현
 
 ### 네비게이션
-- [ ] Command Palette 구현
-- [ ] Navigation Menu 통합
-- [ ] Breadcrumb 개선
-- [ ] Mobile Menu 최적화
+- [x] Command Palette 구현
+- [x] Navigation Menu 통합
+- [x] Breadcrumb 개선
+- [x] Mobile Menu 최적화
 
 ### 콘텐츠 및 피드백
 - [ ] Toast 시스템 구현
